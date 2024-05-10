@@ -1,0 +1,43 @@
+# Maven specific files
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/maven-wrapper.jar
+!**/wrapper/
+*.iml
+
+# IntelliJ specific files
+.idea/
+*.iws
+*.ipr
+
+# Logs
+logs/
+*.log*
+
+# Temporary files
+*.tmp
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Generated classes
+*.class
+
+# Package files
+*.jar
+*.war
+*.ear
+
+# Application server specific files
+server-config/
+
+# IDE specific directories
+.metadata/
+bin/
+
+# Dependencies
+lib/
+
+# Environment specific files
+.env
