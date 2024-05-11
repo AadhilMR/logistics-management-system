@@ -1,0 +1,206 @@
+* {
+    font-family: "Segoe UI", serif;
+}
+
+:root {
+    --primary-color: #FF5100;
+    --secondary-color-light: #C9C9C9;
+    --secondary-color-dark: #1E1F22;
+    --color-danger: #D31717;
+}
+
+.bg-color-primary {
+    background-color: var(--primary-color);
+}
+
+.bg-color-light {
+    background-color: var(--secondary-color-light);
+}
+
+.bg-color-dark {
+    background-color: var(--secondary-color-dark);
+}
+
+.text-color-primary {
+    color: var(--primary-color);
+}
+
+.text-color-light {
+    color: var(--secondary-color-light);
+}
+
+.text-color-dark {
+    color: var(--secondary-color-dark);
+}
+
+.form-border-primary {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.cursor-hand {
+    cursor: pointer;
+}
+
+.container-shadow {
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px;
+}
+
+/* Sidebar */
+.sidebar .nav-header {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.sidebar .nav-item {
+    cursor: pointer;
+}
+
+.sidebar .nav-logout {
+    color: var(--color-danger);
+}
+
+.sidebar .nav-item.selected {
+    color: var(--primary-color);
+}
+/* Sidebar */
+
+/* Transport Status */
+.tr-status-transit {
+    color: var(--secondary-color-dark);
+    background-color: #9BB1E8;
+}
+
+.tr-status-port {
+    color: var(--secondary-color-dark);
+    background-color: #FCE69A;
+}
+
+.tr-status-claimed {
+    color: var(--secondary-color-dark);
+    background-color: #77E58E;
+}
+
+.tr-status-unknown {
+    color: var(--secondary-color-dark);
+    background-color: #EfB382;
+}
+
+.tr-status-lost {
+    color: var(--secondary-color-dark);
+    background-color: #F8B0B0;
+}
+/* Transport Status */
+
+/* Cargo Status */
+.cargo-status-not-specified {
+    color: var(--secondary-color-dark);
+    background-color: #F8B0B0;
+}
+
+.cargo-status-route-specified {
+    color: var(--secondary-color-dark);
+    background-color: #77E58E;
+}
+/* Cargo Status */
+
+/* Locations */
+.tr-location {
+    font-weight: 300;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+/* Locations */
+
+/* Cargo Tracker */
+.track-line {
+    height: 2px !important;
+    background-color: #488978;
+    opacity: 1;
+}
+
+.dot {
+    height: 10px;
+    width: 10px;
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-top: 0;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.big-dot {
+    height: 25px;
+    width: 25px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.big-dot i {
+    font-size: 12px;
+}
+/* Cargo Tracker */
+
+/* Alert.js */
+.message {
+    position: fixed;
+    width: auto;
+    min-width: 20%;
+    margin-top: 0.9rem;
+    top: 0.9rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.3rem 1rem;
+    border: 1px solid;
+    border-radius: 0.2rem;
+    font-size: 1.1rem;
+    z-index: 9999;
+    transition: all 0.8s ease;
+    opacity: 0;
+}
+
+@media (max-width:767px) {
+    .message {
+        width: 90%;
+    }
+}
+
+@media (min-width:768px) {
+    .message {
+        width: 70%;
+    }
+}
+
+@media (min-width:992px) {
+    .message {
+        width: auto;
+        max-width: 80%;
+    }
+}
+
+.message-error {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+}
+
+.message-warning {
+    color: #664d03;
+    background-color: #fff3cd;
+    border-color: #ffecb5;
+}
+
+.message-info {
+    color: #084298;
+    background-color: #cfe2ff;
+    border-color: #b6d4fe;
+}
+
+.message-success {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border-color: #badbcc;
+}
+/* Alert.js */
