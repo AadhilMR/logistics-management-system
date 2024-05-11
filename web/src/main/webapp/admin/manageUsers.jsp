@@ -67,12 +67,12 @@
                     <div class="col-8 rounded-3 container-shadow px-2 py-3">
                         <div class="row">
                             <div class="col-6">
-                                <label for="username">Username</label>
+                                <label for="username" class="fw-bold">Username</label>
                                 <input type="text" id="username" class="form-control">
                             </div>
                             <div class="col-6">
-                                <label for="password" class="fw-bold">Select Cargo</label><br>
-                                <input type="text" id="password" class="form-control">
+                                <label for="password" class="fw-bold">Password</label><br>
+                                <input type="password" id="password" class="form-control">
                             </div>
                             <div class="col-6">
                                 <label for="usertype" class="fw-bold">Select User Type</label><br>
@@ -84,7 +84,7 @@
                                 </select>
                             </div>
                             <div class="col-12 mt-3 text-end">
-                                <button class="btn btn-danger col-auto align-self-end">Register</button>
+                                <button class="btn btn-danger col-auto align-self-end" onclick="registerUser();">Register</button>
                             </div>
                         </div>
                     </div>
@@ -96,6 +96,7 @@
         </div>
     </div>
 
+    <script src="../resources/js/alert.js"></script>
     <script src="../resources/js/bootstrap.bundle.js"></script>
     <script src="../resources/js/custom.js"></script>
 </body>

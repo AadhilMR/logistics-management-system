@@ -263,6 +263,7 @@
         </div>
     </div>
 
+    <script src="../resources/js/alert.js"></script>
     <script src="../resources/js/bootstrap.bundle.js"></script>
     <script src="../resources/js/custom.js"></script>
 </body>
