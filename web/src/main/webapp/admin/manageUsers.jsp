@@ -77,10 +77,10 @@
                             <div class="col-6">
                                 <label for="usertype" class="fw-bold">Select User Type</label><br>
                                 <select id="usertype" class="form-select">
-                                    <option value="0">Select</option>
-                                    <option value="1">Admin</option>
-                                    <option value="2">Supervisor</option>
-                                    <option value="3">User</option>
+                                    <option value="-1">Select</option>
+                                    <option value="0">Admin</option>
+                                    <option value="1">Supervisor</option>
+                                    <option value="2">User</option>
                                 </select>
                             </div>
                             <div class="col-12 mt-3 text-end">

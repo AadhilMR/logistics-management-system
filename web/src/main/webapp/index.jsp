@@ -21,7 +21,7 @@
                 <img src="resources/images/shipping.svg" alt="Shipping" class="col-6 offset-3">
             </div>
             <div class="col-4 offset-4">
-                <form action="/login" method="post" class="d-grid">
+                <form action="login" method="post" class="d-grid">
                     <p class="fs-3 text-center">Eclipse Cargo Tracker</p>
                     <label>
                         Username
