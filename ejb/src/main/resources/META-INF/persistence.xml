@@ -7,6 +7,7 @@
         <jta-data-source>jdbc/logistics_db</jta-data-source>
 
         <class>com.aadhil.ejb.entity.User</class>
+        <class>com.aadhil.ejb.entity.Terminal</class>
 
         <shared-cache-mode>DISABLE_SELECTIVE</shared-cache-mode>
 
