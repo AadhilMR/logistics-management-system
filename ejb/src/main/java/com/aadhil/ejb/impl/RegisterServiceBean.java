@@ -4,7 +4,6 @@ import com.aadhil.ejb.entity.User;
 import com.aadhil.ejb.entity.UserType;
 import com.aadhil.ejb.remote.RegisterService;
 import jakarta.ejb.Stateless;
-import jakarta.ejb.TransactionAttribute;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
