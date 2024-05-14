@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../resources/css/bootstrap.css">
     <link rel="stylesheet" href="../resources/css/custom.css">
 </head>
-<body onload="fetchTerminals(); fetchRoutes();">
+<body onload="fetchTerminals(); fetchRoutes(); fetchCargoIds();">
     <div class="container-fluid vh-100">
         <div class="row">
 
@@ -71,9 +71,6 @@
                                         <label for="cargo" class="fw-bold">Select Cargo</label><br>
                                         <select id="cargo" class="form-select">
                                             <option value="0">Select</option>
-                                            <option value="1">DHS012K</option>
-                                            <option value="2">DHS012K</option>
-                                            <option value="3">DHS012K</option>
                                         </select>
                                     </div>
                                     <div class="col-4">

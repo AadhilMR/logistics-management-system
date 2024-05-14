@@ -207,6 +207,30 @@ function loadNextRouteName(currentRouteCount) {
     document.getElementById("route_name").value = nextRouteName;
 }
 
+function fetchCargoIds() {
+    var select = document.getElementById("cargo");
+    var request = new XMLHttpRequest();
+
+    request.onreadystatechange = function () {
+        if(request.readyState === 4) {
+            var jsonArr = JSON.parse(request.responseText);
+
+            for(var i=0; i<jsonArr.length; i++) {
+                var jsonObj = jsonArr[i];
+                var id = jsonObj.cargoId;
+
+                var option = document.createElement("option");
+                option.value = id;
+                option.innerText = id;
+                select.appendChild(option);
+            }
+        }
+    };
+
+    request.open("GET", "../cargos", true);
+    request.send();
+}
+
 /**
  * manageCargo.jsp
  */
@@ -222,6 +246,8 @@ function createCargo() {
             if(request.responseText === "success") {
                 alertMessage = new Alert("success", "Cargo created successfully!");
                 alertMessage.show();
+
+                fetchCargos();
             } else {
                 alertMessage = new Alert("error", "Something went wrong! Plese try again later.");
                 alertMessage.show();
@@ -232,4 +258,69 @@ function createCargo() {
     request.open("GET", "../createCargo?desc=" + desc.value + "&ins=" + encodeURIComponent(ins.value), true);
     request.setRequestHeader("content-type", "application/x-www-form-urlencoded");
     request.send();
+}
+
+function fetchCargos() {
+    var request = new XMLHttpRequest();
+
+    request.onreadystatechange = function () {
+        if(request.readyState === 4) {
+            var jsonArr = JSON.parse(request.responseText);
+
+            document.getElementById("table_tbody").innerText = "";
+
+            for(var i=0; i<jsonArr.length; i++) {
+                var jsonObj = jsonArr[i];
+
+                var id = jsonObj.cargoId;
+                var desc = jsonObj.cargoDescription;
+                var ins = jsonObj.cargoInstruction;
+                var createdDate = jsonObj.createdDate;
+                var status = jsonObj.cargoStatus;
+
+                loadCargos(id, desc, createdDate, ins, status);
+            }
+        }
+    };
+
+    request.open("GET", "../cargos", true);
+    request.send();
+}
+
+function loadCargos(id, description, createdDate, instruction, status) {
+    var tbody = document.getElementById("table_tbody");
+
+    var row = document.createElement("tr");
+
+    var cellId = document.createElement("th");
+    cellId.scope = "row";
+    cellId.innerText = id;
+
+    var cellDesc = document.createElement("td");
+    cellDesc.innerText = (description != null || description != "") ? description : "N/A";
+
+    var cellDate = document.createElement("td");
+    cellDate.innerText = createdDate;
+
+    var cellIns = document.createElement("td");
+    cellIns.innerText = (instruction != null || instruction != "") ? instruction : "N/A";
+
+    var cellStatus = document.createElement("td");
+    var spanStatus = document.createElement("span");
+
+    if(status === "not-specified") {
+        spanStatus.classList.add("badge", "cargo-status-not-specified");
+        spanStatus.innerText = "Select Route";
+    } else {
+        spanStatus.classList.add("badge", "cargo-status-route-specified");
+        spanStatus.innerText = "Route Selected";
+    }
+    cellStatus.appendChild(spanStatus);
+
+    row.appendChild(cellId);
+    row.appendChild(cellDesc);
+    row.appendChild(cellDate);
+    row.appendChild(cellIns);
+    row.appendChild(cellStatus);
+    tbody.appendChild(row);
 }

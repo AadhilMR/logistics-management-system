@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../resources/css/bootstrap.css">
     <link rel="stylesheet" href="../resources/css/custom.css">
 </head>
-<body>
+<body onload="fetchCargos();">
     <div class="container-fluid vh-100">
         <div class="row">
 
@@ -94,35 +94,10 @@
                             <th scope="col">Created Date</th>
                             <th scope="col">Special Instructions</th>
                             <th scope="col">Status</th>
-                            <th scope="col">Tracking ID</th>
                         </tr>
                     </thead>
-                    <tbody class="table-group-divider">
-                        <tr>
-                            <th scope="row">C100T</th>
-                            <td>
-                                This is the description of cargo
-                            </td>
-                            <td>2024-05-11 10:10:34</td>
-                            <td>
-                                Fragile Item<br>
-                                This side up
-                            </td>
-                            <td><span class="badge cargo-status-not-specified">Select Route</span></td>
-                            <td>N/A</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">C200T</th>
-                            <td>
-                                This is the description of cargo
-                            </td>
-                            <td>2024-05-11 10:16:59</td>
-                            <td>
-                                Flammable
-                            </td>
-                            <td><span class="badge cargo-status-route-specified">Route Selected</span></td>
-                            <td>DHS012K</td>
-                        </tr>
+                    <tbody class="table-group-divider" id="table_tbody">
+                        <%-- Cargo list will be loaded here --%>
                     </tbody>
                 </table>
                 <%-- Cargo status table - end --%>
