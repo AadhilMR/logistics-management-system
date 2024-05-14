@@ -206,3 +206,30 @@ function loadNextRouteName(currentRouteCount) {
     var nextRouteName = "Route " + (currentRouteCount + 1);
     document.getElementById("route_name").value = nextRouteName;
 }
+
+/**
+ * manageCargo.jsp
+ */
+
+function createCargo() {
+    var desc = document.getElementById("cargo_desc");
+    var ins = document.getElementById("cargo_ins");
+
+    var request = new XMLHttpRequest();
+
+    request.onreadystatechange = function () {
+        if(request.readyState === 4) {
+            if(request.responseText === "success") {
+                alertMessage = new Alert("success", "Cargo created successfully!");
+                alertMessage.show();
+            } else {
+                alertMessage = new Alert("error", "Something went wrong! Plese try again later.");
+                alertMessage.show();
+            }
+        }
+    };
+
+    request.open("GET", "../createCargo?desc=" + desc.value + "&ins=" + encodeURIComponent(ins.value), true);
+    request.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+    request.send();
+}

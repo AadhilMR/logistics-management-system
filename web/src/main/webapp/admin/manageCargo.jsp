@@ -77,7 +77,7 @@
                                 <textarea id="cargo_ins" class="form-control col-6" cols="30" rows="4" style="resize: none;"></textarea>
                             </div>
                             <div class="col-12 mt-3 text-end">
-                                <button class="btn btn-danger col-auto align-self-end">Create Cargo</button>
+                                <button class="btn btn-danger col-auto align-self-end" onclick="createCargo();">Create Cargo</button>
                             </div>
                         </div>
                     </div>
