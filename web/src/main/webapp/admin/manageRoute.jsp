@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../resources/css/bootstrap.css">
     <link rel="stylesheet" href="../resources/css/custom.css">
 </head>
-<body>
+<body onload="fetchTerminals(); fetchRoutes();">
     <div class="container-fluid vh-100">
         <div class="row">
 
@@ -67,7 +67,7 @@
                         <div class="row px-3 mb-5">
                             <div class="col-12 rounded-3 container-shadow px-2 py-3">
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <label for="cargo" class="fw-bold">Select Cargo</label><br>
                                         <select id="cargo" class="form-select">
                                             <option value="0">Select</option>
@@ -76,15 +76,25 @@
                                             <option value="3">DHS012K</option>
                                         </select>
                                     </div>
-                                    <div class="col-6">
-                                        <label for="route" class="fw-bold">Select Route</label><br>
-                                        <select id="route" class="form-select">
+                                    <div class="col-4">
+                                        <label for="origin" class="fw-bold">Select Origin</label><br>
+                                        <select id="origin" class="form-select">
                                             <option value="0">Select</option>
-                                            <option value="1">Route 01</option>
-                                            <option value="2">Route 02</option>
                                         </select>
                                     </div>
-                                    <div class="col-12 mt-3 text-end">
+                                    <div class="col-4">
+                                        <label for="destination" class="fw-bold">Select Destination</label><br>
+                                        <select id="destination" class="form-select">
+                                            <option value="0">Select</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6 mt-3">
+                                        <label for="route_selector" class="fw-bold">Select Route</label>
+                                        <select id="route_selector" class="form-select">
+                                            <option value="0">Select</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6 mt-3 d-flex justify-content-end align-content-end">
                                         <button class="btn btn-danger col-auto align-self-end">Set Route</button>
                                     </div>
                                 </div>
@@ -100,7 +110,7 @@
                                     <div class="col-6">
                                         <label for="route_name" class="fw-bold">Route Name</label><br>
                                         <span style="font-size: 0.9rem;" class="fw-light">This is a auto-generated name</span>
-                                        <input type="text" class="form-control" id="route_name" value="Route 3" readonly>
+                                        <input type="text" class="form-control" id="route_name" readonly>
                                     </div>
                                     <div class="col-12 mt-2">
                                         <label for="terminal_selector" class="fw-bold">Terminals</label><br>
@@ -110,11 +120,10 @@
                                                     <div class="col-9">
                                                         <select id="terminal_selector" class="form-select">
                                                             <option value="0">Select</option>
-                                                            <option value="1">China (CHHKG)</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-3 d-grid">
-                                                        <button class="btn btn-danger">Add</button>
+                                                        <button class="btn btn-danger" onclick="addRoutes();">Add</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -129,7 +138,7 @@
                                         <span>* Route Name and the Voyage Duration will be calculated automatically</span><br>
                                     </div>
                                     <div class="col-12 mt-1 text-end">
-                                        <button class="btn btn-danger col-auto align-self-end">Create Route</button>
+                                        <button class="btn btn-danger col-auto align-self-end" onclick="createRoute();">Create Route</button>
                                     </div>
                                 </div>
                             </div>
@@ -145,35 +154,8 @@
                                     <th scope="col">Route</th>
                                 </tr>
                             </thead>
-                            <tbody class="table-group-divider">
-                                <tr>
-                                    <td>
-                                        <span class="fw-bold">Route 01 - 18 Days</span>
-                                        <div class="offset-1">
-                                            <span>China <i class="fa-solid fa-right-long text-color-primary"></i> Korea</span>
-                                            <br>
-                                            <span>Korea <i class="fa-solid fa-right-long text-color-primary"></i> India</span>
-                                            <br>
-                                            <span>India <i class="fa-solid fa-right-long text-color-primary"></i> Sri Lanka</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="fw-bold">Route 02 - 72 Days</span>
-                                        <div class="offset-1">
-                                            <span>USA <i class="fa-solid fa-right-long bg-color-primary"></i> UK</span>
-                                            <br>
-                                            <span>UK <i class="fa-solid fa-right-long bg-color-primary"></i> South Africa</span>
-                                            <br>
-                                            <span>South Africa <i class="fa-solid fa-right-long bg-color-primary"></i> Madagaskar</span>
-                                            <br>
-                                            <span>Madagaskar <i class="fa-solid fa-right-long bg-color-primary"></i> India</span>
-                                            <br>
-                                            <span>India <i class="fa-solid fa-right-long bg-color-primary"></i> Sri Lanka</span>
-                                        </div>
-                                    </td>
-                                </tr>
+                            <tbody class="table-group-divider" id="table_body">
+                                <%-- Route List will be load here --%>
                             </tbody>
                         </table>
                         <%-- Route list table - end --%>
