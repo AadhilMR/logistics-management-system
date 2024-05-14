@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.aadhil.ejb.dto.RouteDTO;
+import com.aadhil.ejb.entity.Cargo;
 import com.aadhil.ejb.entity.Terminal;
 import com.aadhil.ejb.remote.DataFetchService;
 import jakarta.ejb.Stateless;
@@ -32,6 +33,22 @@ public class DataFetchServiceBean implements DataFetchService {
         return entityManager.createQuery("SELECT t FROM Terminal t WHERE t.name IN :names", Terminal.class)
                 .setParameter("names", terminalNames)
                 .getResultList();
+    }
+
+    @Override
+    public List<Cargo> fetchCargo() {
+        return entityManager.createQuery("SELECT c FROM Cargo c", Cargo.class).getResultList();
+    }
+
+    @Override
+    public Cargo fetchLastInsertCargo() {
+        try {
+            return entityManager.createQuery("SELECT c FROM Cargo c ORDER BY c.id DESC", Cargo.class)
+                    .setMaxResults(1)
+                    .getSingleResult();
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     @Override
