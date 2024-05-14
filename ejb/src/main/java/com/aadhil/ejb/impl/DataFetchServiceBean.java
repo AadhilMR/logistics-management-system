@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.aadhil.ejb.dto.CargoDTO;
 import com.aadhil.ejb.dto.RouteDTO;
 import com.aadhil.ejb.entity.Cargo;
 import com.aadhil.ejb.entity.Terminal;
@@ -36,8 +37,35 @@ public class DataFetchServiceBean implements DataFetchService {
     }
 
     @Override
-    public List<Cargo> fetchCargo() {
-        return entityManager.createQuery("SELECT c FROM Cargo c", Cargo.class).getResultList();
+    public List<CargoDTO> fetchCargoAsDTO() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        List<CargoDTO> cargoDTOList = new ArrayList<>();
+
+        List<Cargo> cargoList = entityManager.createQuery("SELECT c FROM Cargo c", Cargo.class).getResultList();
+
+        for(Cargo cargo : cargoList) {
+            // Check the status of the Cargo
+            Long resultCount = (Long) entityManager.createQuery("SELECT COUNT(ct.id) FROM CargoTransaction ct WHERE ct.cargo.id = :cargoId")
+                    .setParameter("cargoId", cargo.getId())
+                    .getSingleResult();
+
+            CargoDTO cargoDTO = new CargoDTO();
+
+            cargoDTO.setCargoId(cargo.getCargoId());
+            cargoDTO.setCargoDescription(cargo.getDescription());
+            cargoDTO.setCargoInstruction(cargo.getInstruction());
+            cargoDTO.setCreatedDate(cargo.getCreatedTime().format(formatter));
+
+            if(resultCount == 1) {
+                cargoDTO.setCargoStatus("route-specified");
+            } else {
+                cargoDTO.setCargoStatus("not-specified");
+            }
+
+            cargoDTOList.add(cargoDTO);
+        }
+
+        return cargoDTOList;
     }
 
     @Override
