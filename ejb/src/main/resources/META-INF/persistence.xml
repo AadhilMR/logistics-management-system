@@ -8,6 +8,8 @@
 
         <class>com.aadhil.ejb.entity.User</class>
         <class>com.aadhil.ejb.entity.Terminal</class>
+        <class>com.aadhil.ejb.entity.Route</class>
+        <class>com.aadhil.ejb.entity.RouteHasTerminal</class>
 
         <shared-cache-mode>DISABLE_SELECTIVE</shared-cache-mode>
 
