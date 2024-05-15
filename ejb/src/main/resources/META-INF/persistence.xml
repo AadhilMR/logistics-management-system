@@ -11,6 +11,8 @@
         <class>com.aadhil.ejb.entity.Route</class>
         <class>com.aadhil.ejb.entity.RouteHasTerminal</class>
         <class>com.aadhil.ejb.entity.Cargo</class>
+        <class>com.aadhil.ejb.entity.CargoTransaction</class>
+        <class>com.aadhil.ejb.entity.TransportStatus</class>
 
         <shared-cache-mode>DISABLE_SELECTIVE</shared-cache-mode>
 
