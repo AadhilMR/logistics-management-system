@@ -1,5 +1,6 @@
 package com.aadhil.ejb.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -13,7 +14,7 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 @Table(name = "cargo_transaction")
-public class CargoTransaction {
+public class CargoTransaction implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

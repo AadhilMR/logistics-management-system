@@ -1,6 +1,8 @@
 package com.aadhil.ejb.entity;
 
-public enum UserType {
+import java.io.Serializable;
+
+public enum UserType implements Serializable {
     ADMIN, SUPERVISOR, USER;
 
     public static UserType getUserType(int id) throws RuntimeException {
