@@ -45,6 +45,13 @@ public class DataFetchServiceBean implements DataFetchService {
     }
 
     @Override
+    public Terminal fetchTerminal(int id) {
+        return entityManager.createQuery("SELECT t FROM Terminal t WHERE t.id = :id", Terminal.class)
+                .setParameter("id", id)
+                .getSingleResult();
+    }
+
+    @Override
     public List<CargoDTO> fetchCargoAsDTO() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         List<CargoDTO> cargoDTOList = new ArrayList<>();
@@ -106,6 +113,13 @@ public class DataFetchServiceBean implements DataFetchService {
         }
 
         return routeDTOList;
+    }
+
+    @Override
+    public Cargo fetchCargo(String cargoId) {
+        return entityManager.createQuery("SELECT c FROM Cargo c WHERE c.cargoId = :cargoId", Cargo.class)
+                .setParameter("cargoId", cargoId)
+                .getSingleResult();
     }
 
     private String getNextDepartureTime(LocalDateTime departureTime) {

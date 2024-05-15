@@ -12,7 +12,9 @@ import jakarta.ejb.Remote;
 public interface DataFetchService {
     List<Terminal> fetchTerminals();
     List<Terminal> fetchTerminals(List<String> terminalNames);
+    Terminal fetchTerminal(int id);
     List<RouteDTO> fetchRoutes();
     List<CargoDTO> fetchCargoAsDTO();
     Cargo fetchLastInsertCargo();
+    Cargo fetchCargo(String cargoId);
 }
