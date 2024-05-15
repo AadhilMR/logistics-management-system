@@ -258,7 +258,7 @@ function setRoute() {
         }
     };
 
-    var url = "../transaction?cargo=" + cargo.value + "&origin=" + origin.value + "&dest=" + destination.value;
+    var url = "../createTransaction?cargo=" + cargo.value + "&origin=" + origin.value + "&dest=" + destination.value;
     request.open("GET", url, true);
     request.send();
 }

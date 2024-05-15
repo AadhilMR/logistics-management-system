@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "TransactionServlet", urlPatterns = "/transaction")
+@WebServlet(name = "TransactionServlet", urlPatterns = "/createTransaction")
 public class CreateCargoTransactionServlet extends HttpServlet {
 
     @EJB
