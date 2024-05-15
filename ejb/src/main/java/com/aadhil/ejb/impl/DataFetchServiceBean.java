@@ -31,10 +31,6 @@ public class DataFetchServiceBean implements DataFetchService {
 
     @Override
     public List<Terminal> fetchTerminals(List<String> terminalNames) {
-        return entityManager.createQuery("SELECT t FROM Terminal t WHERE t.name IN :names", Terminal.class)
-                .setParameter("names", terminalNames)
-                .getResultList();
-    }
         List<Terminal> terminalList = new ArrayList<>();
 
         for (String terminalName : terminalNames) {
