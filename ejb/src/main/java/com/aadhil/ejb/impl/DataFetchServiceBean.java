@@ -35,6 +35,18 @@ public class DataFetchServiceBean implements DataFetchService {
                 .setParameter("names", terminalNames)
                 .getResultList();
     }
+        List<Terminal> terminalList = new ArrayList<>();
+
+        for (String terminalName : terminalNames) {
+            Terminal terminal = entityManager.createQuery("SELECT t FROM Terminal t WHERE t.name=:name", Terminal.class)
+                    .setParameter("name", terminalName)
+                    .getSingleResult();
+
+            terminalList.add(terminal);
+        }
+
+        return terminalList;
+    }
 
     @Override
     public List<CargoDTO> fetchCargoAsDTO() {
