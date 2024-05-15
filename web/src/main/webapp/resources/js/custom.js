@@ -231,6 +231,38 @@ function fetchCargoIds() {
     request.send();
 }
 
+function setRoute() {
+    var cargo = document.getElementById("cargo");
+    var origin = document.getElementById("origin");
+    var destination = document.getElementById("destination");
+
+    var request = new XMLHttpRequest();
+
+    request.onreadystatechange = function () {
+        if(request.readyState === 4) {
+            var jsonObj = JSON.parse(request.responseText);
+
+            if(jsonObj.response === "success") {
+                alertMessage = new Alert("success", "A route is set to the cargo.");
+                alertMessage.show();
+
+                document.getElementById("selected_route_name").innerText = jsonObj.route;
+                document.getElementById("tracking_id").innerText = jsonObj.trackingId;
+
+                var container = document.getElementById("route_track_container");
+                container.classList.remove("d-none");
+            } else {
+                alertMessage = new Alert("error", "Something went wrong! Please try again later.");
+                alertMessage.show();
+            }
+        }
+    };
+
+    var url = "../transaction?cargo=" + cargo.value + "&origin=" + origin.value + "&dest=" + destination.value;
+    request.open("GET", url, true);
+    request.send();
+}
+
 /**
  * manageCargo.jsp
  */

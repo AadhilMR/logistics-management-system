@@ -64,6 +64,15 @@
                     <div class="col-8">
                         <%-- Cargo Booking Container - start --%>
                         <h3>Book Cargo</h3>
+                        <div class="row px-3 mb-5 d-none" id="route_track_container">
+                            <div class="col-12 rounded-3 container-shadow px-2 py-3" style="color: var(--secondary-color-dark); background-color: #9BB1E8;">
+                                <span class="fw-bold">Route Name: </span>
+                                <span id="selected_route_name"></span>
+                                <br>
+                                <span class="fw-bold">Tracking ID: </span>
+                                <span id="tracking_id"></span>
+                            </div>
+                        </div>
                         <div class="row px-3 mb-5">
                             <div class="col-12 rounded-3 container-shadow px-2 py-3">
                                 <div class="row">
@@ -85,14 +94,14 @@
                                             <option value="0">Select</option>
                                         </select>
                                     </div>
-                                    <div class="col-6 mt-3">
+                                    <div class="col-6 mt-3 d-none">
                                         <label for="route_selector" class="fw-bold">Select Route</label>
                                         <select id="route_selector" class="form-select">
                                             <option value="0">Select</option>
                                         </select>
                                     </div>
-                                    <div class="col-6 mt-3 d-flex justify-content-end align-content-end">
-                                        <button class="btn btn-danger col-auto align-self-end">Set Route</button>
+                                    <div class="col-6 offset-6 mt-3 d-flex justify-content-end align-content-end">
+                                        <button class="btn btn-danger col-auto align-self-end" onclick="setRoute();">Set Route</button>
                                     </div>
                                 </div>
                             </div>
