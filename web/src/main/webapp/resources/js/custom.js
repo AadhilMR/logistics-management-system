@@ -4,9 +4,137 @@ function hideAlert() {
     alertMessage.hide();
 }
 
+/**
+ * dashboard.jsp
+ */
+
 function openCargoModal(trackingId) {
     const cargoModal = new bootstrap.Modal(document.getElementById("cargoModal"));
     cargoModal.show();
+}
+
+function fetchAllTransactions() {
+    var request = new XMLHttpRequest();
+
+    request.onreadystatechange = function () {
+        if(request.readyState === 4) {
+            var jsonArr = JSON.parse(request.responseText);
+
+            document.getElementById("table_body").innerText = "";
+
+            for(var i=0; i<jsonArr.length; i++) {
+                var jsonObj = jsonArr[i];
+                loadTransactionsToTable(jsonObj);
+            }
+        }
+    };
+
+    request.open("GET", "../transactions", true);
+    request.send();
+}
+
+function loadTransactionsToTable(jsonObj) {
+    var tableBody = document.getElementById("table_body");
+
+    var trackingId = jsonObj.trackingId;
+    var cargoId = jsonObj.cargoId;
+    var desc = jsonObj.cargoDescription;
+    var originName = jsonObj.originName;
+    var originCode = jsonObj.originCode;
+    var destName = jsonObj.destinationName;
+    var destCode = jsonObj.destinationCode;
+    var lastLocName = jsonObj.lastLocationName;
+    var lastLocCode = jsonObj.lastLocationCode;
+    var status = jsonObj.transportStatus;
+    var deptTime = jsonObj.departureDateTime;
+    var arrTime = jsonObj.arrivalDateTime;
+
+    var row = document.createElement("tr");
+
+    var th = document.createElement("th");
+    th.scope = "row";
+    th.classList.add("cursor-hand");
+    th.setAttribute("onclick", "openCargoModal('"+ trackingId +"');");
+    th.innerText = trackingId;
+    row.appendChild(th);
+
+    var tdOrigin = document.createElement("td");
+    var brOrigin = document.createElement("br");
+    var spanOrigin = document.createElement("span");
+    spanOrigin.classList.add("tr-location");
+    spanOrigin.innerText = originCode;
+    tdOrigin.append(originName);
+    tdOrigin.append(brOrigin);
+    tdOrigin.append(spanOrigin);
+    row.appendChild(tdOrigin);
+
+    var tdDest = document.createElement("td");
+    var brDest = document.createElement("br");
+    var spanDest = document.createElement("span");
+    spanDest.classList.add("tr-location");
+    spanDest.innerText = destCode;
+    tdDest.append(destName);
+    tdDest.append(brDest);
+    tdDest.append(spanDest);
+    row.appendChild(tdDest);
+
+    var tdLast = document.createElement("td");
+    var brLast = document.createElement("br");
+    var spanLast = document.createElement("span");
+    spanLast.classList.add("tr-location");
+    spanLast.innerText = lastLocCode;
+    tdLast.append(lastLocName);
+    tdLast.append(brLast);
+    tdLast.append(spanLast);
+    row.appendChild(tdLast);
+
+    var tdDate = document.createElement("td");
+    tdDate.innerText = arrTime;
+    row.appendChild(tdDate);
+
+    var tdStatus = document.createElement("td");
+    var spanStatus = document.createElement("span");
+    spanStatus.classList.add("badge");
+
+    switch (status) {
+        case "IN_TRANSIT":
+            spanStatus.classList.add("tr-status-transit");
+            break;
+        case "IN_PORT":
+            spanStatus.classList.add("tr-status-port");
+            break;
+        case "UNKNOWN":
+            spanStatus.classList.add("tr-status-unknown");
+            break;
+        case "CLAIMED":
+            spanStatus.classList.add("tr-status-claimed");
+            break;
+        case "NOT_RECEIVED":
+            spanStatus.classList.add("tr-status-lost");
+            break;
+    }
+
+    spanStatus.innerText = status;
+    tdStatus.appendChild(spanStatus);
+    row.appendChild(tdStatus);
+
+    tableBody.appendChild(row);
+}
+
+function updateTransportStatus() {
+    var trackingId = document.getElementById("tracking_id");
+    var newStatus = document.getElementById("transport_status");
+
+    var request = new XMLHttpRequest();
+
+    request.onreadystatechange = function () {
+        if(request.readyState === 4) {
+            console.log(request.responseText);
+        }
+    };
+
+    request.open("GET", "../updateStatus?id=" + trackingId.innerText + "&status=" + newStatus.value, true);
+    request.send();
 }
 
 /**

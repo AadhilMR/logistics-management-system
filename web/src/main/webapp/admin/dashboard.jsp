@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../resources/css/bootstrap.css">
     <link rel="stylesheet" href="../resources/css/custom.css">
 </head>
-<body>
+<body onload="fetchAllTransactions();">
     <div class="container-fluid vh-100">
         <div class="row">
 
@@ -70,111 +70,12 @@
                             <th scope="col">Origin</th>
                             <th scope="col">Destination</th>
                             <th scope="col">Last Known Location</th>
-                            <th scope="col">Deadline</th>
+                            <th scope="col">Arrival On</th>
                             <th scope="col">Status</th>
                         </tr>
                     </thead>
-                    <tbody class="table-group-divider">
-                        <tr>
-                            <th scope="row" class="cursor-hand" onclick="openCargoModal(this.innerText);">DHS012K</th>
-                            <td>
-                                China
-                                <br>
-                                <span class="tr-location">CHHKG</span>
-                            </td>
-                            <td>
-                                Sri Lanka
-                                <br>
-                                <span class="tr-location">SLCOL</span>
-                            </td>
-                            <td>
-                                India
-                                <br>
-                                <span class="tr-location">INDCH</span>
-                            </td>
-                            <td>2024-05-24</td>
-                            <td><span class="badge tr-status-claimed">CLAIMED</span></td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="cursor-hand" onclick="openCargoModal(this.innerText);">DHS012K</th>
-                            <td>
-                                China
-                                <br>
-                                <span class="tr-location">CHHKG</span>
-                            </td>
-                            <td>
-                                Sri Lanka
-                                <br>
-                                <span class="tr-location">SLCOL</span>
-                            </td>
-                            <td>
-                                India
-                                <br>
-                                <span class="tr-location">INDCH</span>
-                            </td>
-                            <td>2024-05-24</td>
-                            <td><span class="badge tr-status-lost">LOST</span></td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="cursor-hand" onclick="openCargoModal(this.innerText);">DHS012K</th>
-                            <td>
-                                China
-                                <br>
-                                <span class="tr-location">CHHKG</span>
-                            </td>
-                            <td>
-                                Sri Lanka
-                                <br>
-                                <span class="tr-location">SLCOL</span>
-                            </td>
-                            <td>
-                                India
-                                <br>
-                                <span class="tr-location">INDCH</span>
-                            </td>
-                            <td>2024-05-24</td>
-                            <td><span class="badge tr-status-port">IN PORT</span></td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="cursor-hand" onclick="openCargoModal(this.innerText);">DHS012K</th>
-                            <td>
-                                China
-                                <br>
-                                <span class="tr-location">CHHKG</span>
-                            </td>
-                            <td>
-                                Sri Lanka
-                                <br>
-                                <span class="tr-location">SLCOL</span>
-                            </td>
-                            <td>
-                                India
-                                <br>
-                                <span class="tr-location">INDCH</span>
-                            </td>
-                            <td>2024-05-24</td>
-                            <td><span class="badge tr-status-transit">IN TRANSIT</span></td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="cursor-hand" onclick="openCargoModal(this.innerText);">DHS012K</th>
-                            <td>
-                                China
-                                <br>
-                                <span class="tr-location">CHHKG</span>
-                            </td>
-                            <td>
-                                Sri Lanka
-                                <br>
-                                <span class="tr-location">SLCOL</span>
-                            </td>
-                            <td>
-                                India
-                                <br>
-                                <span class="tr-location">INDCH</span>
-                            </td>
-                            <td>2024-05-24</td>
-                            <td><span class="badge tr-status-unknown">UNKNOWN</span></td>
-                        </tr>
+                    <tbody class="table-group-divider" id="table_body">
+                        <%-- Cargo Transaction will be loaded here --%>
                     </tbody>
                 </table>
                 <%-- Cargo status table - end --%>
