@@ -9,9 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.aadhil.ejb.dto.CargoDTO;
+import com.aadhil.ejb.dto.CargoTransactionDTO;
 import com.aadhil.ejb.dto.RouteDTO;
 import com.aadhil.ejb.entity.Cargo;
 import com.aadhil.ejb.entity.Terminal;
+import com.aadhil.ejb.entity.TransportStatus;
 import com.aadhil.ejb.remote.DataFetchService;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
@@ -122,7 +124,104 @@ public class DataFetchServiceBean implements DataFetchService {
                 .getSingleResult();
     }
 
-    private String getNextDepartureTime(LocalDateTime departureTime) {
+    @Override
+    public List<CargoTransactionDTO> fetchTransactions() {
+        List<Object[]> results = entityManager.createQuery(
+                        "SELECT ct.trackingId, " +
+                                "c.cargoId, " +
+                                "c.description, " +
+                                "o.name, " +
+                                "o.code, " +
+                                "d.name, " +
+                                "d.code, " +
+                                "l.name, " +
+                                "l.code, " +
+                                "ct.status, " +
+                                "ct.departureTime, " +
+                                "ct.arrivalTime " +
+                                "FROM CargoTransaction ct " +
+                                "JOIN ct.cargo c " +
+                                "JOIN ct.origin o " +
+                                "JOIN ct.destination d " +
+                                "JOIN ct.lastLocation l",
+                        Object[].class)
+                .getResultList();
+
+        List<CargoTransactionDTO> cargoTransactionDTOList = new ArrayList<>();
+
+        for (Object[] result : results) {
+            CargoTransactionDTO.Builder builder = new CargoTransactionDTO.Builder();
+
+            String pattern = "yyyy-MM-dd HH:mm";
+            String departureTime = getNextDepartureTime((LocalDateTime) result[10], pattern);
+            String arrivalTime = getNextArrivalTime((LocalDateTime) result[11], (LocalDateTime) result[10], pattern);
+
+            builder.setTrackingId((String) result[0])
+                    .setCargoId((String) result[1])
+                    .setCargoDescription((String) result[2])
+                    .setOriginName((String) result[3])
+                    .setOriginCode((String) result[4])
+                    .setDestinationName((String) result[5])
+                    .setDestinationCode((String) result[6])
+                    .setLastLocationName((String) result[7])
+                    .setLastLocationCode((String) result[8])
+                    .setTransportStatus(((TransportStatus) result[9]).toString())
+                    .setDepartureDateTime(departureTime)
+                    .setArrivalDateTime(arrivalTime);
+
+            cargoTransactionDTOList.add(builder.build());
+        }
+        return cargoTransactionDTOList;
+    }
+
+    @Override
+    public CargoTransactionDTO fetchTransaction(String trackingId) {
+        Object[] result = entityManager.createQuery(
+                "SELECT ct.trackingId, " +
+                        "c.cargoId, " +
+                        "c.description, " +
+                        "o.name, " +
+                        "o.code, " +
+                        "d.name, " +
+                        "d.code, " +
+                        "l.name, " +
+                        "l.code, " +
+                        "ct.status, " +
+                        "ct.departureTime, " +
+                        "ct.arrivalTime " +
+                        "FROM CargoTransaction ct " +
+                        "JOIN ct.cargo c " +
+                        "JOIN ct.origin o " +
+                        "JOIN ct.destination d " +
+                        "JOIN ct.lastLocation l " +
+                        "WHERE ct.trackingId=:trackingId",
+                Object[].class)
+                .setParameter("trackingId", trackingId)
+                .getSingleResult();
+
+        CargoTransactionDTO.Builder builder = new CargoTransactionDTO.Builder();
+
+        String pattern = "yyyy-MM-dd HH:mm";
+        String departureTime = getNextDepartureTime((LocalDateTime) result[10], pattern);
+        String arrivalTime = getNextArrivalTime((LocalDateTime) result[11], (LocalDateTime) result[10], pattern);
+
+        builder.setTrackingId((String) result[0])
+                .setCargoId((String) result[1])
+                .setCargoDescription((String) result[2])
+                .setOriginName((String) result[3])
+                .setOriginCode((String) result[4])
+                .setDestinationName((String) result[5])
+                .setDestinationCode((String) result[6])
+                .setLastLocationName((String) result[7])
+                .setLastLocationCode((String) result[8])
+                .setTransportStatus(((TransportStatus) result[9]).toString())
+                .setDepartureDateTime(departureTime)
+                .setArrivalDateTime(arrivalTime);
+
+        return builder.build();
+    }
+
+    private LocalDateTime getNextDepartureTime(LocalDateTime departureTime) {
         int currentMonth = LocalDateTime.now().getMonthValue();
 
         departureTime = departureTime.withMonth(currentMonth);
@@ -131,9 +230,24 @@ public class DataFetchServiceBean implements DataFetchService {
         if (departureTime.isBefore(currentDateTime)) {
             departureTime = departureTime.plusMonths(1);
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd HH:mm");
+        return departureTime;
+    }
+
+    private String getNextDepartureTime(LocalDateTime departureTime, String pattern) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+
+        departureTime = getNextDepartureTime(departureTime);
 
         return departureTime.format(formatter);
+    }
+
+    private String getNextArrivalTime(LocalDateTime arrivalTime, LocalDateTime departureTime, String pattern) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+
+        departureTime = getNextDepartureTime(departureTime);
+        arrivalTime = arrivalTime.withMonth(departureTime.getMonthValue());
+
+        return arrivalTime.format(formatter);
     }
 
     private HashMap<String, RouteDTO> getRouteDTOHashMap(List<Object[]> routeDataList) {
@@ -158,7 +272,7 @@ public class DataFetchServiceBean implements DataFetchService {
                 routeDTO.setId(id);
                 routeDTO.setName(routeName);
                 routeDTO.setDaysForVoyage((int) ChronoUnit.DAYS.between(departureTime, arrivalTime));
-                routeDTO.setNextDepartureTime(getNextDepartureTime(departureTime));
+                routeDTO.setNextDepartureTime(getNextDepartureTime(departureTime, "MM-dd HH:mm"));
                 routeDTO.setTerminalList(terminalList);
 
                 routeDTOHashMap.put(routeName, routeDTO);
