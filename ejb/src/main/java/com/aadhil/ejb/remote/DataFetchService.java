@@ -15,6 +15,7 @@ public interface DataFetchService {
     List<Terminal> fetchTerminals(List<String> terminalNames);
     Terminal fetchTerminal(int id);
     List<RouteDTO> fetchRoutes();
+    RouteDTO fetchRoute(Long id);
     List<CargoDTO> fetchCargoAsDTO();
     Cargo fetchLastInsertCargo();
     Cargo fetchCargo(String cargoId);

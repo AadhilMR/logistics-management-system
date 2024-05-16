@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.aadhil.ejb.dto.CargoDTO;
 import com.aadhil.ejb.dto.CargoTransactionDTO;
@@ -115,6 +116,17 @@ public class DataFetchServiceBean implements DataFetchService {
         }
 
         return routeDTOList;
+    }
+
+    @Override
+    public RouteDTO fetchRoute(Long id) {
+        for (RouteDTO routeDTO : fetchRoutes()) {
+            if(Objects.equals(routeDTO.getId(), id)) {
+                return routeDTO;
+            }
+        }
+
+        return null;
     }
 
     @Override
