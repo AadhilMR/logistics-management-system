@@ -1,10 +1,12 @@
 package com.aadhil.ejb.impl;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.aadhil.ejb.dto.CargoTrackerDTO;
 import com.aadhil.ejb.dto.RouteDTO;
 import com.aadhil.ejb.entity.Cargo;
 import com.aadhil.ejb.entity.Terminal;
@@ -96,6 +98,29 @@ public class CargoTransactionServiceBean implements CargoTransactionService {
         }
     }
 
+    @Override
+    public CargoTrackerDTO trackTransaction(String trackingId) {
+        CargoTransaction cargoTransaction = entityManager.createQuery("SELECT ct FROM CargoTransaction ct WHERE ct.trackingId = :trackingId", CargoTransaction.class)
+                .setParameter("trackingId", trackingId)
+                .getSingleResult();
+
+        Terminal origin = cargoTransaction.getOrigin();
+        Terminal destination = cargoTransaction.getDestination();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM", Locale.ENGLISH);
+        LocalDateTime deparuteDateTime = getNextDepartureTime(cargoTransaction.getDepartureTime());
+        LocalDateTime arrivalDateTime = cargoTransaction.getArrivalTime().withMonth(deparuteDateTime.getMonthValue());
+
+        CargoTrackerDTO cargoTrackerDTO = new CargoTrackerDTO();
+        cargoTrackerDTO.setStatus(cargoTransaction.getStatus().toString());
+        cargoTrackerDTO.setLastLocation(cargoTransaction.getLastLocation().getName());
+        cargoTrackerDTO.setArrivalTime(formatter.format(arrivalDateTime));
+        cargoTrackerDTO.setDepartureTime(formatter.format(deparuteDateTime));
+        cargoTrackerDTO.setTerminals(filterTerminalList(cargoTransaction.getRoute().getId(), origin, destination));
+
+        return cargoTrackerDTO;
+    }
+
     private Terminal getNextTerminal(CargoTransaction cargoTransaction) {
         RouteDTO routeDTO = dataFetchService.fetchRoute(cargoTransaction.getRoute().getId());
 
@@ -132,5 +157,49 @@ public class CargoTransactionServiceBean implements CargoTransactionService {
                 transportStatus = TransportStatus.UNKNOWN;
         }
         return transportStatus;
+    }
+
+    private List<Terminal> getTerminalList(Long routeId) {
+        return entityManager.createQuery(
+                        "SELECT rht.terminal FROM RouteHasTerminal rht WHERE rht.route.id = :routeId ORDER BY rht.order", Terminal.class)
+                .setParameter("routeId", routeId)
+                .getResultList();
+    }
+
+    private List<Terminal> filterTerminalList(Long routeId, Terminal origin, Terminal destination) {
+        List<Terminal> terminalList = getTerminalList(routeId);
+
+        boolean canRemove = true;
+
+        for (int i=0; i<terminalList.size(); i++) {
+            Terminal terminal = terminalList.get(i);
+
+            if(terminal.equals(origin)) {
+                canRemove = false;
+            }
+
+            if(canRemove) {
+                terminalList.remove(terminal);
+                i--;
+            }
+
+            if(terminal.equals(destination)) {
+                canRemove = true;
+            }
+        }
+
+        return terminalList;
+    }
+
+    private LocalDateTime getNextDepartureTime(LocalDateTime departureTime) {
+        int currentMonth = LocalDateTime.now().getMonthValue();
+
+        departureTime = departureTime.withMonth(currentMonth);
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        if (departureTime.isBefore(currentDateTime)) {
+            departureTime = departureTime.plusMonths(1);
+        }
+        return departureTime;
     }
 }
