@@ -74,7 +74,7 @@
                                         <input type="text" class="form-control" id="tracking_id">
                                     </div>
                                     <div class="col-4">
-                                        <button class="btn btn-danger align-self-end">Track Now</button>
+                                        <button class="btn btn-danger align-self-end" onclick="trackCargo();">Track Now</button>
                                     </div>
                                 </div>
                             </div>
@@ -84,57 +84,63 @@
                 <%-- Cargo Tracking Container - end --%>
 
                 <%-- Tracking Status - start --%>
-                <div class="row">
-                    <div class="col-12 my-2">
+                <div class="row d-none" id="result_container">
+                    <div class="col-12">
+
                         <div class="row">
-                            <!-- <div class="col-4 offset-4 rounded-3 bg-danger text-light py-4 px-3 text-center">
-                                <span class="fs-3"><i class="fa-solid fa-triangle-exclamation"></i></span><br>
-                                <span class="fs-4">Location Unknown</span><br>
-                                <span class="fw-lighter">Cannot find location</span>
+                            <div class="col-12 my-2">
+                                <div class="row">
+                                    <div class="col-4 offset-4 rounded-3 bg-danger text-light py-4 px-3 text-center d-none" id="status_unknown">
+                                        <span class="fs-3"><i class="fa-solid fa-triangle-exclamation"></i></span><br>
+                                        <span class="fs-4">Location Unknown</span><br>
+                                        <span class="fw-lighter">Cannot find location</span>
+                                    </div>
+                                    <div class="col-4 offset-4 rounded-3 bg-primary text-light py-4 px-3 text-center d-none" id="status_in_transit">
+                                        <span class="fs-3"><i class="fa-solid fa-ferry"></i></span><br>
+                                        <span class="fs-4">In Transit</span><br>
+                                        <span class="fw-lighter">Ship in the waters</span>
+                                    </div>
+                                    <div class="col-4 offset-4 rounded-3 bg-success text-light py-4 px-3 text-center d-none" id="status_in_port">
+                                        <span class="fs-3"><i class="fa-solid fa-anchor"></i></span><br>
+                                        <span class="fs-4">In Port</span><br>
+                                        <span class="fw-lighter">Current Location is: <span id="current_location"></span></span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-4 offset-4 rounded-3 bg-primary text-light py-4 px-3 text-center">
-                                <span class="fs-3"><i class="fa-solid fa-ferry"></i></span><br>
-                                <span class="fs-4">In Transit</span><br>
-                                <span class="fw-lighter">Ship in the waters</span>
-                            </div> -->
-                            <div class="col-4 offset-4 rounded-3 bg-success text-light py-4 px-3 text-center">
-                                <span class="fs-3"><i class="fa-solid fa-anchor"></i></span><br>
-                                <span class="fs-4">In Port</span><br>
-                                <span class="fw-lighter">Current Location is: China</span>
-                            </div>
+                        </div>
+
+                        <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex flex-row justify-content-between align-items-center align-content-center" id="route_line_container">
+<%--                            <span class="d-flex justify-content-center align-items-center big-dot dot">--%>
+<%--                                <i class="fa fa-check text-white"></i>--%>
+<%--                            </span>--%>
+<%--                            <hr class="flex-fill track-line"><span class="dot"></span>--%>
+<%--                            <hr class="flex-fill track-line"><span class="dot"></span>--%>
+<%--                            <hr class="flex-fill track-line"><span class="dot"></span>--%>
+                        </div>
+
+                        <div class="d-flex flex-row justify-content-between align-items-center" id="route_terminal_container">
+<%--                            <div class="d-flex flex-column align-items-start">--%>
+<%--                                <span>11 Mar</span>--%>
+<%--                                <span>China (CHHKG)</span>--%>
+<%--                            </div>--%>
+<%--                            <div class="d-flex flex-column align-items-center">--%>
+<%--                                <span class="text-white" style="user-select: none;">--</span>--%>
+<%--                                <span>Korea (KRSDA)</span>--%>
+<%--                            </div>--%>
+<%--                            <div class="d-flex flex-column align-items-center">--%>
+<%--                                <span class="text-white" style="user-select: none;">--</span>--%>
+<%--                                <span>India (INDCH)</span>--%>
+<%--                            </div>--%>
+<%--                            <div class="d-flex flex-column align-items-end">--%>
+<%--                                <span>15 Mar</span>--%>
+<%--                                <span>Sri Lanka (SLCOL)</span>--%>
+<%--                            </div>--%>
                         </div>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
-                            <span class="d-flex justify-content-center align-items-center big-dot dot">
-                                <i class="fa fa-check text-white"></i>
-                            </span>
-                            <hr class="flex-fill track-line"><span class="dot"></span>
-                            <hr class="flex-fill track-line"><span class="dot"></span>
-                            <hr class="flex-fill track-line"><span class="dot"></span>
-                        </div>
-
-                        <div class="d-flex flex-row justify-content-between align-items-center">
-                            <div class="d-flex flex-column align-items-start">
-                                <span>11 Mar</span>
-                                <span>China (CHHKG)</span>
-                            </div>
-                            <div class="d-flex flex-column align-items-center">
-                                <span class="text-white" style="user-select: none;">--</span>
-                                <span>Korea (KRSDA)</span>
-                            </div>
-                            <div class="d-flex flex-column align-items-center">
-                                <span class="text-white" style="user-select: none;">--</span>
-                                <span>India (INDCH)</span>
-                            </div>
-                            <div class="d-flex flex-column align-items-end">
-                                <span>15 Mar</span>
-                                <span>Sri Lanka (SLCOL)</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <%-- Tracking Status - end --%>

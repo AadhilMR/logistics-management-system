@@ -535,3 +535,105 @@ function loadCargos(id, description, createdDate, instruction, status) {
     row.appendChild(cellStatus);
     tbody.appendChild(row);
 }
+
+/**
+ * trackCargo.jsp
+ */
+
+function trackCargo() {
+    // Hide all tracking data
+    document.getElementById("result_container").classList.add("d-none");
+    document.getElementById("status_in_port").classList.add("d-none");
+    document.getElementById("status_in_transit").classList.add("d-none");
+    document.getElementById("status_unknown").classList.add("d-none");
+
+    var trackingId = document.getElementById("tracking_id");
+
+    var request = new XMLHttpRequest();
+
+    request.onreadystatechange = function () {
+        if(request.readyState === 4) {
+            var jsonObj = JSON.parse(request.responseText);
+
+            document.getElementById("result_container").classList.remove("d-none");
+
+            showTrackingStatus(jsonObj.status, jsonObj.lastLocation);
+            showTrackingRoute(jsonObj.lastLocation, jsonObj.departureTime, jsonObj.arrivalTime, jsonObj.terminals);
+        }
+    };
+
+    request.open("GET", "../track?id=" + trackingId.value, true);
+    request.send();
+}
+
+function showTrackingStatus(status, currentLocation) {
+    if(status === "IN_PORT" || status === "CLAIMED") {
+        document.getElementById("current_location").innerText = currentLocation;
+        document.getElementById("status_in_port").classList.remove("d-none");
+    } else if(status === "IN_TRANSIT") {
+        document.getElementById("status_in_transit").classList.remove("d-none");
+    } else {
+        document.getElementById("status_unknown").classList.remove("d-none");
+    }
+}
+
+function showTrackingRoute(lastLocation, departureTime, arrivalTime, terminalsArr) {
+    var routeLineContainer = document.getElementById("route_line_container");
+    var terminalContainer = document.getElementById("route_terminal_container");
+
+    // Create Route Line
+    for(var i=0; i<terminalsArr.length; i++) {
+        var span = document.createElement("span");
+
+        if(i !== 0) {
+            var hr = document.createElement("hr");
+            hr.classList.add("flex-fill", "track-line");
+            routeLineContainer.appendChild(hr);
+        }
+
+        if(lastLocation === terminalsArr[i].name) {
+            var icon = document.createElement("i");
+            icon.classList.add("fa", "fa-check", "text-white");
+
+            span.classList.add("d-flex", "justify-content-center", "align-items-center", "big-dot", "dot");
+
+            span.appendChild(icon);
+        } else {
+            span.classList.add("dot");
+
+        }
+
+        routeLineContainer.appendChild(span);
+    }
+
+    // Create Terminal Section
+    for(var j=0; j<terminalsArr.length; j++) {
+        var div = document.createElement("div");
+        var dateSpan = document.createElement("span");
+        var nameSpan = document.createElement("span");
+
+        div.classList.add("d-flex", "flex-column");
+
+        if(j === 0) {
+            div.classList.add("align-items-start");
+
+            dateSpan.innerText = departureTime;
+        } else if(j === (terminalsArr.length-1)) {
+            div.classList.add("align-items-end");
+
+            dateSpan.innerText = arrivalTime;
+        } else {
+            div.classList.add("align-items-center");
+
+            dateSpan.classList.add("text-white");
+            dateSpan.style.userSelect = "none";
+            dateSpan.innerText = "--";
+        }
+
+        nameSpan.innerText = terminalsArr[j].name + " (" + terminalsArr[j].code + ")";
+
+        div.appendChild(dateSpan);
+        div.appendChild(nameSpan);
+        terminalContainer.appendChild(div);
+    }
+}
