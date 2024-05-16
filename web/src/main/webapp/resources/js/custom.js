@@ -9,8 +9,51 @@ function hideAlert() {
  */
 
 function openCargoModal(trackingId) {
+    fetchTransaction(trackingId);
+
     const cargoModal = new bootstrap.Modal(document.getElementById("cargoModal"));
     cargoModal.show();
+}
+
+function fetchTransaction(trackingId) {
+    var request = new XMLHttpRequest();
+
+    request.onreadystatechange = function () {
+        if(request.readyState === 4) {
+            console.log(request.responseText);
+            var jsonObj = JSON.parse(request.responseText);
+            loadTransactionToModal(jsonObj);
+        }
+    };
+
+    request.open("GET", "../transaction?id=" + trackingId, true);
+    request.send();
+}
+
+function loadTransactionToModal(jsonObj) {
+    var trackingId = jsonObj.trackingId;
+    var cargoId = jsonObj.cargoId;
+    var desc = jsonObj.cargoDescription;
+    var originName = jsonObj.originName;
+    var originCode = jsonObj.originCode;
+    var destName = jsonObj.destinationName;
+    var destCode = jsonObj.destinationCode;
+    var lastLocName = jsonObj.lastLocationName;
+    var lastLocCode = jsonObj.lastLocationCode;
+    var status = jsonObj.transportStatus;
+    var deptTime = jsonObj.departureDateTime;
+    var arrTime = jsonObj.arrivalDateTime;
+
+    document.getElementById("tracking_id").innerText = trackingId;
+    document.getElementById("cargo_id").innerText = cargoId;
+    document.getElementById("cargo_description").innerText = desc;
+    document.getElementById("origin_location").innerText = originName + " (" + originCode + ")";
+    document.getElementById("destination_location").innerText = destName + " (" + destCode + ")";
+    document.getElementById("last_known_location").innerText = lastLocName + " (" + lastLocCode + ")";
+    document.getElementById("transport_status").innerText = status;
+    document.getElementById("departure_time").innerText = deptTime;
+    document.getElementById("arrival_time").innerText = arrTime;
+    document.getElementById("tr_status").value = status;
 }
 
 function fetchAllTransactions() {
@@ -123,13 +166,21 @@ function loadTransactionsToTable(jsonObj) {
 
 function updateTransportStatus() {
     var trackingId = document.getElementById("tracking_id");
-    var newStatus = document.getElementById("transport_status");
+    var newStatus = document.getElementById("tr_status");
 
     var request = new XMLHttpRequest();
 
     request.onreadystatechange = function () {
         if(request.readyState === 4) {
-            console.log(request.responseText);
+            if(request.responseText === "success") {
+                alertMessage = new Alert("success", "Status updated successfully!");
+                alertMessage.show();
+
+                window.location.reload();
+            } else {
+                alertMessage = new Alert("success", "Something went wrong! Please try again later.");
+                alertMessage.show();
+            }
         }
     };
 

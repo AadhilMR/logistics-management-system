@@ -94,47 +94,47 @@
                         <div class="modal-body">
                             <span class="my-1">
                                 <span class="fw-bold">Tracking ID: </span>
-                                <span>DHA912K</span>
+                                <span id="tracking_id">DHA912K</span>
                             </span>
                             <br>
                             <span class="my-1">
                                 <span class="fw-bold">Cargo ID: </span>
-                                <span>C100T</span>
+                                <span id="cargo_id">C100T</span>
                             </span>
                             <br>
                             <span class="my-1">
                                 <span class="fw-bold">Cargo Descrition: </span>
-                                <span>This is cargo description</span>
+                                <span id="cargo_description">This is cargo description</span>
                             </span>
                             <br>
                             <span class="my-1">
                                 <span class="fw-bold">Origin Location: </span>
-                                <span>CHINA (CHHKG)</span>
+                                <span id="origin_location">CHINA (CHHKG)</span>
                             </span>
                             <br>
                             <span class="my-1">
                                 <span class="fw-bold">Destination Location: </span>
-                                <span>SRI LANKA (SLCOL)</span>
+                                <span id="destination_location">SRI LANKA (SLCOL)</span>
                             </span>
                             <br>
                             <span class="my-1">
                                 <span class="fw-bold">Last Known Location: </span>
-                                <span>INDIA (INDCH)</span>
+                                <span id="last_known_location">INDIA (INDCH)</span>
                             </span>
                             <br>
                             <span class="my-1">
                                 <span class="fw-bold">Status: </span>
-                                <span>IN TRANSIT</span>
+                                <span id="transport_status">IN TRANSIT</span>
                             </span>
                             <br>
                             <span class="my-1">
                                 <span class="fw-bold">Departure Date: </span>
-                                <span>2024-05-09 12:33 GMT</span>
+                                <span id="departure_time">2024-05-09 12:33 GMT</span>
                             </span>
                             <br>
                             <span class="my-1">
                                 <span class="fw-bold">Estimated Arrival Date: </span>
-                                <span>2024-05-18 04:33 GMT</span>
+                                <span id="arrival_time">2024-05-18 04:33 GMT</span>
                             </span>
                             <hr style="width: 90%; margin-left: 5%;">
                             <div class="col-12 mt-2">
@@ -143,11 +143,11 @@
                                     <div class="col-5 d-grid">
                                         <select id="tr_status" class="form-select form-border-primary">
                                             <option value="0">Select</option>
-                                            <option value="1">In Transit</option>
-                                            <option value="2">In Port</option>
-                                            <option value="3">Unknown</option>
-                                            <option value="4">Claimed</option>
-                                            <option value="5">Not Received</option>
+                                            <option value="IN_TRANSIT">IN_TRANSIT</option>
+                                            <option value="IN_PORT">IN_PORT</option>
+                                            <option value="UNKNOWN">UNKNOWN</option>
+                                            <option value="CLAIMED">CLAIMED</option>
+                                            <option value="NOT_RECEIVED">NOT_RECEIVED</option>
                                         </select>
                                     </div>
                                 </div>
@@ -155,7 +155,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-primary" onclick="updateTransportStatus();">Save changes</button>
                         </div>
                     </div>
                 </div>
