@@ -11,6 +11,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 
 @Entity
 @Table(name = "cargo_transaction")
@@ -39,6 +41,7 @@ public class CargoTransaction implements Serializable {
     @ManyToOne
     @JoinColumn(name = "last_location_id", nullable = false)
     private Terminal lastLocation;
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private TransportStatus status;
 
