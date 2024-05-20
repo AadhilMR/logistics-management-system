@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Track Cargo</title>
@@ -31,24 +32,28 @@
                                 <i class="fa-solid fa-house-laptop"></i>
                                 Dashboard
                             </div>
-                            <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item" onclick="window.location='manageCargo.jsp';">
-                                <i class="fa-solid fa-cart-flatbed"></i>
-                                Cargo
-                            </div>
-                            <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item selected">
-                                <i class="fa-solid fa-route"></i>
-                                Book & Edit Route
-                            </div>
+                            <c:if test="${pageContext.request.isUserInRole('supervisor')}">
+                                <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item" onclick="window.location='manageCargo.jsp';">
+                                    <i class="fa-solid fa-cart-flatbed"></i>
+                                    Cargo
+                                </div>
+                                <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item selected">
+                                    <i class="fa-solid fa-route"></i>
+                                    Book & Edit Route
+                                </div>
+                            </c:if>
                             <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item" onclick="window.location='trackCargo.jsp';">
                                 <i class="fa-solid fa-magnifying-glass-location"></i>
                                 Track Cargo
                             </div>
-                            <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item" onclick="window.location='manageUsers.jsp';">
-                                <i class="fa-solid fa-user-group"></i>
-                                Users
-                            </div>
+                            <c:if test="${pageContext.request.isUserInRole('admin')}">
+                                <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item" onclick="window.location='manageUsers.jsp';">
+                                    <i class="fa-solid fa-user-group"></i>
+                                    Users
+                                </div>
+                            </c:if>
                             <hr style="width: 90%; margin-left: 5%;">
-                            <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item nav-logout" onclick="window.location='../index.jsp';">
+                            <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item nav-logout" onclick="logout();">
                                 <i class="fa-solid fa-right-from-bracket"></i>
                                 Sign Out
                             </div>
@@ -108,48 +113,50 @@
                         </div>
                         <%-- Cargo Booking Container - end --%>
 
-                        <%-- Route Creation Container - start --%>
-                        <h3>Create Route</h3>
-                        <div class="row px-3 mb-5">
-                            <div class="col-12 rounded-3 container-shadow px-2 py-3">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <label for="route_name" class="fw-bold">Route Name</label><br>
-                                        <span style="font-size: 0.9rem;" class="fw-light">This is a auto-generated name</span>
-                                        <input type="text" class="form-control" id="route_name" readonly>
-                                    </div>
-                                    <div class="col-12 mt-2">
-                                        <label for="terminal_selector" class="fw-bold">Terminals</label><br>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="row">
-                                                    <div class="col-9">
-                                                        <select id="terminal_selector" class="form-select">
-                                                            <option value="0">Select</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-3 d-grid">
-                                                        <button class="btn btn-danger" onclick="addRoutes();">Add</button>
+                        <c:if test="${pageContext.request.isUserInRole('admin')}">
+                            <%-- Route Creation Container - start --%>
+                            <h3>Create Route</h3>
+                            <div class="row px-3 mb-5">
+                                <div class="col-12 rounded-3 container-shadow px-2 py-3">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label for="route_name" class="fw-bold">Route Name</label><br>
+                                            <span style="font-size: 0.9rem;" class="fw-light">This is a auto-generated name</span>
+                                            <input type="text" class="form-control" id="route_name" readonly>
+                                        </div>
+                                        <div class="col-12 mt-2">
+                                            <label for="terminal_selector" class="fw-bold">Terminals</label><br>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="row">
+                                                        <div class="col-9">
+                                                            <select id="terminal_selector" class="form-select">
+                                                                <option value="0">Select</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-3 d-grid">
+                                                            <button class="btn btn-danger" onclick="addRoutes();">Add</button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <textarea id="route_terminals" class="form-control col-6" cols="30" rows="4" style="resize: none;" readonly></textarea>
+                                                <div class="col-6">
+                                                    <textarea id="route_terminals" class="form-control col-6" cols="30" rows="4" style="resize: none;" readonly></textarea>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-12 mt-3" style="font-size: 0.9rem;">
-                                        <span>* The first terminal you selected is the Origin of the route</span><br>
-                                        <span>* The last terminal you selected is the Destination of the route</span><br>
-                                        <span>* Route Name and the Voyage Duration will be calculated automatically</span><br>
-                                    </div>
-                                    <div class="col-12 mt-1 text-end">
-                                        <button class="btn btn-danger col-auto align-self-end" onclick="createRoute();">Create Route</button>
+                                        <div class="col-12 mt-3" style="font-size: 0.9rem;">
+                                            <span>* The first terminal you selected is the Origin of the route</span><br>
+                                            <span>* The last terminal you selected is the Destination of the route</span><br>
+                                            <span>* Route Name and the Voyage Duration will be calculated automatically</span><br>
+                                        </div>
+                                        <div class="col-12 mt-1 text-end">
+                                            <button class="btn btn-danger col-auto align-self-end" onclick="createRoute();">Create Route</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <%-- Route Creation Container - end --%>
+                            <%-- Route Creation Container - end --%>
+                        </c:if>
                     </div>
                     <div class="col-4">
                         <%-- Route List Table - start --%>

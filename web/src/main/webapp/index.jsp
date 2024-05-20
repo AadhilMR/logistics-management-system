@@ -22,7 +22,7 @@
             </div>
             <div class="col-4 offset-4">
                 <form action="login" method="post" class="d-grid">
-                    <p class="fs-3 text-center">Eclipse Cargo Tracker</p>
+                    <p class="fs-3 text-center">Wave Logistics</p>
                     <label>
                         Username
                         <input type="text" class="form-control" name="username">

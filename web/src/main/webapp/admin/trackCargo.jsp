@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Track Cargo</title>
@@ -31,24 +32,28 @@
                                 <i class="fa-solid fa-house-laptop"></i>
                                 Dashboard
                             </div>
-                            <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item" onclick="window.location='manageCargo.jsp';">
-                                <i class="fa-solid fa-cart-flatbed"></i>
-                                Cargo
-                            </div>
-                            <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item" onclick="window.location='manageRoute.jsp';">
-                                <i class="fa-solid fa-route"></i>
-                                Book & Edit Route
-                            </div>
+                            <c:if test="${pageContext.request.isUserInRole('supervisor')}">
+                                <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item" onclick="window.location='manageCargo.jsp';">
+                                    <i class="fa-solid fa-cart-flatbed"></i>
+                                    Cargo
+                                </div>
+                                <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item" onclick="window.location='manageRoute.jsp';">
+                                    <i class="fa-solid fa-route"></i>
+                                    Book & Edit Route
+                                </div>
+                            </c:if>
                             <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item selected">
                                 <i class="fa-solid fa-magnifying-glass-location"></i>
                                 Track Cargo
                             </div>
-                            <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item" onclick="window.location='manageUsers.jsp';">
-                                <i class="fa-solid fa-user-group"></i>
-                                Users
-                            </div>
+                            <c:if test="${pageContext.request.isUserInRole('admin')}">
+                                <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item" onclick="window.location='manageUsers.jsp';">
+                                    <i class="fa-solid fa-user-group"></i>
+                                    Users
+                                </div>
+                            </c:if>
                             <hr style="width: 90%; margin-left: 5%;">
-                            <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item nav-logout" onclick="window.location='../index.jsp';">
+                            <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item nav-logout" onclick="logout();">
                                 <i class="fa-solid fa-right-from-bracket"></i>
                                 Sign Out
                             </div>
@@ -110,36 +115,16 @@
                         </div>
 
                         <div class="row">
-                    <div class="col-12">
-                        <div class="d-flex flex-row justify-content-between align-items-center align-content-center" id="route_line_container">
-<%--                            <span class="d-flex justify-content-center align-items-center big-dot dot">--%>
-<%--                                <i class="fa fa-check text-white"></i>--%>
-<%--                            </span>--%>
-<%--                            <hr class="flex-fill track-line"><span class="dot"></span>--%>
-<%--                            <hr class="flex-fill track-line"><span class="dot"></span>--%>
-<%--                            <hr class="flex-fill track-line"><span class="dot"></span>--%>
-                        </div>
+                            <div class="col-12">
+                                <div class="d-flex flex-row justify-content-between align-items-center align-content-center" id="route_line_container">
 
-                        <div class="d-flex flex-row justify-content-between align-items-center" id="route_terminal_container">
-<%--                            <div class="d-flex flex-column align-items-start">--%>
-<%--                                <span>11 Mar</span>--%>
-<%--                                <span>China (CHHKG)</span>--%>
-<%--                            </div>--%>
-<%--                            <div class="d-flex flex-column align-items-center">--%>
-<%--                                <span class="text-white" style="user-select: none;">--</span>--%>
-<%--                                <span>Korea (KRSDA)</span>--%>
-<%--                            </div>--%>
-<%--                            <div class="d-flex flex-column align-items-center">--%>
-<%--                                <span class="text-white" style="user-select: none;">--</span>--%>
-<%--                                <span>India (INDCH)</span>--%>
-<%--                            </div>--%>
-<%--                            <div class="d-flex flex-column align-items-end">--%>
-<%--                                <span>15 Mar</span>--%>
-<%--                                <span>Sri Lanka (SLCOL)</span>--%>
-<%--                            </div>--%>
+                                </div>
+
+                                <div class="d-flex flex-row justify-content-between align-items-center" id="route_terminal_container">
+
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
                     </div>
                 </div>

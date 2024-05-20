@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Manage Cargo</title>
@@ -31,24 +32,28 @@
                                 <i class="fa-solid fa-house-laptop"></i>
                                 Dashboard
                             </div>
-                            <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item selected">
-                                <i class="fa-solid fa-cart-flatbed"></i>
-                                Cargo
-                            </div>
-                            <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item" onclick="window.location='manageRoute.jsp';">
-                                <i class="fa-solid fa-route"></i>
-                                Book & Edit Route
-                            </div>
+                            <c:if test="${pageContext.request.isUserInRole('supervisor')}">
+                                <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item selected">
+                                    <i class="fa-solid fa-cart-flatbed"></i>
+                                    Cargo
+                                </div>
+                                <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item" onclick="window.location='manageRoute.jsp';">
+                                    <i class="fa-solid fa-route"></i>
+                                    Book & Edit Route
+                                </div>
+                            </c:if>
                             <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item" onclick="window.location='trackCargo.jsp';">
                                 <i class="fa-solid fa-magnifying-glass-location"></i>
                                 Track Cargo
                             </div>
-                            <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item" onclick="window.location='manageUsers.jsp';">
-                                <i class="fa-solid fa-user-group"></i>
-                                Users
-                            </div>
+                            <c:if test="${pageContext.request.isUserInRole('admin')}">
+                                <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item" onclick="window.location='manageUsers.jsp';">
+                                    <i class="fa-solid fa-user-group"></i>
+                                    Users
+                                </div>
+                            </c:if>
                             <hr style="width: 90%; margin-left: 5%;">
-                            <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item nav-logout" onclick="window.location='../index.jsp';">
+                            <div class="col-10 offset-1 px-2 py-2 mb-3 nav-item nav-logout" onclick="logout();">
                                 <i class="fa-solid fa-right-from-bracket"></i>
                                 Sign Out
                             </div>
@@ -61,28 +66,30 @@
             <%-- Main - start --%>
             <div class="col-10 py-2 px-3">
 
-                <%-- Cargo Creation Container - start --%>
-                <h3>Create Cargo</h3>
-                <div class="row px-3 mb-5">
-                    <div class="col-12 rounded-3 container-shadow px-2 py-3">
-                        <div class="row">
-                            <div class="col-6">
-                                <label for="cargo_desc" class="fw-bold">Description</label><br>
-                                <span style="font-size: 0.9rem;" class="fw-light">Write short description (Not necessary)</span>
-                                <textarea id="cargo_desc" class="form-control col-6" cols="30" rows="4" style="resize: none;"></textarea>
-                            </div>
-                            <div class="col-6">
-                                <label for="cargo_ins" class="fw-bold">Special Instructions</label><br>
-                                <span style="font-size: 0.9rem;" class="fw-light">Seperate instructions with a comma (Not necessary)</span>
-                                <textarea id="cargo_ins" class="form-control col-6" cols="30" rows="4" style="resize: none;"></textarea>
-                            </div>
-                            <div class="col-12 mt-3 text-end">
-                                <button class="btn btn-danger col-auto align-self-end" onclick="createCargo();">Create Cargo</button>
+                <c:if test="${pageContext.request.isUserInRole('admin')}">
+                    <%-- Cargo Creation Container - start --%>
+                    <h3>Create Cargo</h3>
+                    <div class="row px-3 mb-5">
+                        <div class="col-12 rounded-3 container-shadow px-2 py-3">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="cargo_desc" class="fw-bold">Description</label><br>
+                                    <span style="font-size: 0.9rem;" class="fw-light">Write short description (Not necessary)</span>
+                                    <textarea id="cargo_desc" class="form-control col-6" cols="30" rows="4" style="resize: none;"></textarea>
+                                </div>
+                                <div class="col-6">
+                                    <label for="cargo_ins" class="fw-bold">Special Instructions</label><br>
+                                    <span style="font-size: 0.9rem;" class="fw-light">Seperate instructions with a comma (Not necessary)</span>
+                                    <textarea id="cargo_ins" class="form-control col-6" cols="30" rows="4" style="resize: none;"></textarea>
+                                </div>
+                                <div class="col-12 mt-3 text-end">
+                                    <button class="btn btn-danger col-auto align-self-end" onclick="createCargo();">Create Cargo</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <%-- Cargo Creation Container - end --%>
+                    <%-- Cargo Creation Container - end --%>
+                </c:if>
 
                 <%-- Cargo status table - start --%>
                 <h3>Cargo List</h3>
