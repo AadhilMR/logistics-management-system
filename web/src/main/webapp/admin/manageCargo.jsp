@@ -10,7 +10,8 @@
 <html>
 <head>
     <title>Manage Cargo</title>
-    <link rel="stylesheet" href="../resources/fontawesome-free-6.5.2-web/css/all.css">
+    <link rel="stylesheet" href="../resources/fontawesome-free-6.5.2-web/css/fontawesome.min.css">
+    <link rel="stylesheet" href="../resources/fontawesome-free-6.5.2-web/css/solid.min.css">
     <link rel="stylesheet" href="../resources/css/bootstrap.css">
     <link rel="stylesheet" href="../resources/css/custom.css">
 </head>

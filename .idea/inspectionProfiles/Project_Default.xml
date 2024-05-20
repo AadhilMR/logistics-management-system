@@ -1929,7 +1929,14 @@
     <inspection_tool class="NestingDepthJS" enabled="true" level="ERROR" enabled_by_default="true">
       <option name="m_limit" value="5" />
     </inspection_tool>
-    <inspection_tool class="NewExceptionWithoutArguments" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="NewExceptionWithoutArguments" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="exceptions">
+        <list>
+          <option value="jakarta.ejb.EJBException" />
+          <option value="java.lang.RuntimeException" />
+        </list>
+      </option>
+    </inspection_tool>
     <inspection_tool class="NewGroovyClassNamingConvention" enabled="false" level="ERROR" enabled_by_default="false">
       <extension name="GroovyAnnotationNamingConvention" enabled="true" />
       <extension name="GroovyClassNamingConvention" enabled="true" />
