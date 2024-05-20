@@ -6,6 +6,7 @@ import com.aadhil.ejb.entity.Cargo;
 import com.aadhil.ejb.exception.CargoCreationFailedException;
 import com.aadhil.ejb.interceptor.CargoIdGenerationInterceptor;
 import com.aadhil.ejb.remote.CargoService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.Stateless;
 import jakarta.interceptor.Interceptors;
 import jakarta.persistence.EntityManager;
@@ -20,6 +21,7 @@ public class CargoServiceBean implements CargoService {
     private String cargoId;
 
     @Override
+    @RolesAllowed("admin")
     @Interceptors(CargoIdGenerationInterceptor.class)
     public void createCargo(String description, String instruction) {
         try {

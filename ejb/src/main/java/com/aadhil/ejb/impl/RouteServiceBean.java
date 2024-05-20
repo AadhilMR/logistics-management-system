@@ -11,6 +11,7 @@ import com.aadhil.ejb.exception.RouteCreationException;
 import com.aadhil.ejb.interceptor.CalculateTimeInterceptor;
 import com.aadhil.ejb.interceptor.FetchTerminalsInterceptor;
 import com.aadhil.ejb.remote.RouteService;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.*;
 import jakarta.inject.Inject;
 import jakarta.interceptor.Interceptors;
@@ -34,6 +35,7 @@ public class RouteServiceBean implements RouteService {
     private LocalDateTime arrivalTime;
 
     @Override
+    @RolesAllowed("admin")
     @Interceptors({FetchTerminalsInterceptor.class, CalculateTimeInterceptor.class})
     public Long createRoute(String name, String terminals) {
         try {

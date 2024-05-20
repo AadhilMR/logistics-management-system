@@ -19,6 +19,8 @@ import com.aadhil.ejb.interceptor.TransactionParameterValidationInterceptor;
 import com.aadhil.ejb.remote.CargoTransactionService;
 import com.aadhil.ejb.remote.DataFetchService;
 import com.aadhil.ejb.util.TrackingIDGenerator;
+import jakarta.annotation.security.PermitAll;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.interceptor.Interceptors;
@@ -36,6 +38,7 @@ public class CargoTransactionServiceBean implements CargoTransactionService {
     private DataFetchService dataFetchService;
 
     @Override
+    @RolesAllowed({"admin", "supervisor"})
     @Interceptors({TransactionParameterValidationInterceptor.class, RouteDeterminationInterceptor.class})
     public HashMap<String, String> createTransaction(String cargoId, int originId, int destinationId) {
 
@@ -74,6 +77,7 @@ public class CargoTransactionServiceBean implements CargoTransactionService {
     }
 
     @Override
+    @RolesAllowed({"admin", "supervisor"})
     public void updateStatus(String trackingId, String status) {
         CargoTransaction cargoTransaction = entityManager
                 .createQuery("SELECT ct FROM CargoTransaction ct WHERE ct.trackingId = :trackingId",
@@ -100,6 +104,7 @@ public class CargoTransactionServiceBean implements CargoTransactionService {
     }
 
     @Override
+    @PermitAll
     public CargoTrackerDTO trackTransaction(String trackingId) {
         CargoTransaction cargoTransaction = entityManager.createQuery("SELECT ct FROM CargoTransaction ct WHERE ct.trackingId = :trackingId", CargoTransaction.class)
                 .setParameter("trackingId", trackingId)
