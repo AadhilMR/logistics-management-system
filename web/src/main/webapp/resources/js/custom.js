@@ -4,6 +4,19 @@ function hideAlert() {
     alertMessage.hide();
 }
 
+function logout() {
+    var request = new XMLHttpRequest();
+
+    request.onreadystatechange = function () {
+        if(request.readyState === 4) {
+            window.location.replace("http://localhost:8080/web/index.jsp");
+        }
+    };
+
+    request.open("GET", "../logout", true);
+    request.send();
+}
+
 /**
  * dashboard.jsp
  */
@@ -20,7 +33,6 @@ function fetchTransaction(trackingId) {
 
     request.onreadystatechange = function () {
         if(request.readyState === 4) {
-            console.log(request.responseText);
             var jsonObj = JSON.parse(request.responseText);
             loadTransactionToModal(jsonObj);
         }
@@ -246,11 +258,14 @@ function fetchTerminals() {
 
                 var value = jsonObj.id;
                 var name = jsonObj.name + " ("+ jsonObj.code +")";
+                var option;
 
-                var option = document.createElement("option");
-                option.value = value;
-                option.innerText = name;
-                terminal_selector.appendChild(option);
+                if(terminal_selector != null) {
+                    option = document.createElement("option");
+                    option.value = value;
+                    option.innerText = name;
+                    terminal_selector.appendChild(option);
+                }
 
                 option = document.createElement("option");
                 option.value = value;
